@@ -888,7 +888,7 @@ static const char* Error_stringCL(const cl_int status) {
     {
       static __thread char static_buffer[] = "Unknown status code " STRINGIFY(LONG_MIN);
 
-      snprintf(static_buffer, sizeof(static_buffer)/sizeof(static_buffer),
+      snprintf(static_buffer, sizeof static_buffer/sizeof *static_buffer,
                "Unknown status code %ld", (long)status);
 
       return static_buffer;
