@@ -201,7 +201,7 @@ static void VectorString_free(VectorString vector);
 //---------------------------------------------------------------------------------------------------------------//
 // Error handling routines
 
-static void Error_die(int value, const char* format, ...);
+static void Error_die(int value, const char* format, ...)
   __attribute__((format (printf,2,3)));
 static void Error_vdie(int value, const char* format, va_list args);
 
