@@ -132,9 +132,9 @@ CL_DEVICE_PROPERTY(CL_DEVICE_PREFERRED_INTEROP_USER_SYNC, PreferredInteropUserSy
 
 CL_DEVICE_PROPERTY(CL_DEVICE_PARENT_DEVICE, ParentDevice, cl_device_id, DeviceId, "Parent device")
 CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_MAX_SUB_DEVICES, PartitionMaxSubDevices, cl_uint, UInt, "Partition maximum sub devices")
-CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_PROPERTIES,      PartitionProperties,     VectorCLParitionProperty,    VectorPartitionProperty, "Partition properties")
-CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_AFFINITY_DOMAIN, PartitionAffinityDomain, cl_device_affinity_domain,   AffinityDomain,          "Partition affinity domain")
-CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_TYPE,            PartitionType,           VectorCLParitionProperty,    VectorPartitionProperty, "Partition type")
+CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_PROPERTIES,      PartitionProperties,     VectorCLPartitionProperty, VectorPartitionProperty, "Partition properties")
+CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_AFFINITY_DOMAIN, PartitionAffinityDomain, cl_device_affinity_domain, AffinityDomain,          "Partition affinity domain")
+CL_DEVICE_PROPERTY(CL_DEVICE_PARTITION_TYPE,            PartitionType,           VectorCLPartitionProperty, VectorPartitionProperty, "Partition type")
 
 CL_DEVICE_PROPERTY(CL_DEVICE_REFERENCE_COUNT, ReferenceCount, cl_uint, UInt, "Reference count")
 #endif // CL_VERSION_1_2

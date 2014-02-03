@@ -40,6 +40,10 @@ typedef struct VectorSize_ VectorSize;
 typedef struct VectorCLPlatform_ VectorCLPlatform;
 typedef struct VectorCLDevice_ VectorCLDevice;
 
+#ifdef CL_VERSION_1_2
+typedef struct VectorCLPartitionProperty_ VectorCLPartitionProperty;
+#endif // CL_VERSION_1_2
+
 
 //---------------------------------------------------------------------------------------------------------------//
 // Vector (all instances are just type specialized)
@@ -235,9 +239,9 @@ static VectorCLDevice VectorCLDevice_raw(size_t number, const cl_device_id* elem
 static void VectorCLDevice_free(VectorCLDevice devices);
 
 #ifdef CL_VERSION_1_2
-static VectorCLPartitionProperty VectorCLParitionProperty_raw(size_t number,
-                                                              const cl_device_parition_property* elements);
-static void VectorCLParitionProperty_free(VectorCLPartitionProperty vector);
+static VectorCLPartitionProperty VectorCLPartitionProperty_raw(size_t number,
+                                                              const cl_device_partition_property* elements);
+static void VectorCLPartitionProperty_free(VectorCLPartitionProperty vector);
 #endif // CL_VERSION_1_2
 
 static VectorCLPlatform CL_platformsQuery();
@@ -274,7 +278,7 @@ static VectorSize CL_deviceProperty_VectorSize(cl_device_id device_id, int prope
 static VectorString CL_deviceProperty_VectorColon(cl_device_id device_id, int property);
 static VectorString CL_deviceProperty_VectorSpace(cl_device_id device_id, int property);
 #ifdef CL_VERSION_1_2
-static String CL_deviceProperty_VectorPartitionProperty(cl_device_id device_id, int property);
+static VectorCLPartitionProperty CL_deviceProperty_VectorPartitionProperty(cl_device_id device_id, int property);
 #endif // CL_VERSION_1_2
 
 #define CL_DEVICE_PROPERTY(ID, IDENT, TYPE, GROUP, DESC) \
@@ -312,7 +316,7 @@ static void Print_device_VectorString(unsigned int indent, VectorString value);
 static void Print_device_VectorColon(unsigned int indent, VectorString value);
 static void Print_device_VectorSpace(unsigned int indent, VectorString value);
 #ifdef CL_VERSION_1_2
-static void Print_device_VectorCLPartitionProperty(unsigned int indent, VectorPartitionProperty value);
+static void Print_device_VectorPartitionProperty(unsigned int indent, VectorCLPartitionProperty value);
 #endif // CL_VERSION_1_2
 
 #define CL_DEVICE_PROPERTY(ID, IDENT, TYPE, GROUP, DESC)                \
@@ -1152,14 +1156,14 @@ static void VectorCLDevice_free(const VectorCLDevice vector) {
 
 // List of partition properties
 #ifdef CL_VERSION_1_2
-static VectorCLPartitionProperty VectorCLParitionProperty_raw(size_t number,
-                                                              const cl_device_parition_property* elements) {
-  const VectorCLParitionProperty vector = { number, elements };
+static VectorCLPartitionProperty VectorCLPartitionProperty_raw(size_t number,
+                                                               const cl_device_partition_property* elements) {
+  const VectorCLPartitionProperty vector = { number, elements };
   return vector;
 }
 
-static void VectorCLParitionProperty_free(VectorCLPartitionProperty vector) {
-  free(vector.elements);
+static void VectorCLPartitionProperty_free(VectorCLPartitionProperty vector) {
+  free((void*)vector.elements);
 }
 #endif // CL_VERSION_1_2
 
@@ -1377,9 +1381,9 @@ static VectorString CL_deviceProperty_VectorSpace(const cl_device_id device_id, 
 }
 
 #ifdef CL_VERSION_1_2
-static String CL_deviceProperty_VectorPartitionProperty(const cl_device_id device_id, int property) {
-  VectorParitionProperty value;
-  CL_deviceProperty_Vector(device_id, property, &value.number, &value.elements, sizeof *value.elements);
+static VectorCLPartitionProperty CL_deviceProperty_VectorPartitionProperty(const cl_device_id device_id, int property) {
+  VectorCLPartitionProperty value;
+  CL_deviceProperty_Vector(device_id, property, &value.number, (void**)&value.elements, sizeof *value.elements);
   return value;
 }
 #endif // CL_VERSION_1_2
@@ -1607,15 +1611,15 @@ static void Print_device_VectorSpace(const unsigned int indent, const VectorStri
 }
 
 #ifdef CL_VERSION_1_2
-static void Print_device_VectorCLPartitionProperty(const unsigned int indent, const VectorPartitionProperty value) {
+static void Print_device_VectorPartitionProperty(const unsigned int indent, const VectorCLPartitionProperty value) {
   printf("[");
   if (value.number > 0) {
     printf(" ");
-    Print_deviceString(indent+2, value.elements[0]);
+    Print_device_PartitionProperty(indent+2, value.elements[0]);
 
     for (size_t iterator = 1; iterator < value.number; ++iterator) {
       printf(", ");
-      Print_device_ParitionProperty(indent+2, value.elements[iterator]);
+      Print_device_PartitionProperty(indent+2, value.elements[iterator]);
     }
     printf(" ");
   }
