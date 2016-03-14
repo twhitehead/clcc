@@ -1026,6 +1026,15 @@ static error_t Settings_parser(int key, char* arg, struct argp_state* state) {
     msettings->device = MaybeString_cstring(arg);
     break;
 
+  case 'D':
+    msettings->options = MVectorString_cpush(msettings->options, "-D");
+    msettings->options = MVectorString_cpush(msettings->options, arg);
+    break;
+  case 'I':
+    msettings->options = MVectorString_cpush(msettings->options, "-I");
+    msettings->options = MVectorString_cpush(msettings->options, arg);
+    break;
+
   case 'w':
     msettings->options = MVectorString_cpush(msettings->options, "-w");
     break;
