@@ -183,7 +183,7 @@ static MaybeString MaybeString_nothing();
 static void MaybeString_free( MaybeString maybe);
 
 static int MaybeString_isJust(MaybeString maybe);
-static int MaybeString_IsNothing(MaybeString maybe);
+static int MaybeString_isNothing(MaybeString maybe);
 static String MaybeString_assert(MaybeString maybe);
 
 static MaybeString MaybeString_append(MaybeString maybe0, MaybeString maybe1);
